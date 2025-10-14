@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CTF Exploit - Maîtrise de Linux</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Arvo:ital,wght@0,400;0,700;1,400;1,700&family=BBH+Sans+Bartle&family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <main class="slider-container">
+
+        <section class="slide title-slide">
+            <div class="content"><img src="img/raw.png" alt="Logo du Club" class="logo">
+                <h1>Maitrise du Terminal Linux</h1>
+                <p>cours express - Club CTF Exploit</p>
+            </div>
+        </section>
+        <section class="slide">
+            <div class="content">
+                <h2>Qu'est-ce que <strong>Linux</strong> ?</h2>
+                <p>Linux est un <strong>Noyau (Kernel)</strong>, le moteur d'un système. Il gère le matériel (CPU, RAM).
+                </p>
+                <p>Un système comme <strong>Kali Linux</strong> est une <strong>distribution</strong> : il combine le
+                    noyau Linux avec des logiciels, dont le <strong>Shell</strong>.</p>
+            </div>
+        </section>
+        <section class="slide">
+            <div class="content">
+                <h2>Shell</h2>
+                <p>Le <strong>Shell</strong> est le programme qui interprète vos commandes.</p><img src="img/shell.png"
+                    alt="Illustration des shells" class="slide-image">
+                <ul>
+                    <li><strong>sh :</strong> L'ancêtre, simple et universel.</li>
+                    <li><strong>bash :</strong> Le plus courant, avec historique et autocomplétion.</li>
+                    <li><strong>zsh :</strong> Très puissant, avec des plugins et thèmes.</li>
+                </ul>
+            </div>
+        </section>
+        <section class="slide">
+            <div class="content">
+                <h2>Les Utilisateurs</h2>
+                <p>Il y a deux types d'utilisateurs :</p>
+                <ul>
+                    <li><strong>Utilisateur Standard :</strong> Votre compte. Le prompt se termine par un
+                        <strong>$</strong>.
+                    </li>
+                    <li><strong>Super-utilisateur (root) :</strong> L'administrateur. Le prompt se termine par un
+                        <strong>#</strong>.
+                    </li>
+                </ul>
+                <p><code>whoami</code> : Affiche le nom de l'utilisateur actuel.</p>
+                <pre><code><span class="command-prompt">whoami</span><span class="command-output">ouicestmoi</span><span class="command-prompt-root">whoami</span><span class="command-output">root</span></code></pre>
+                <p><code>id</code> : Affiche les informations détaillées de l'utilisateur (UID, GID, groupes).</p>
+                <pre><code><span class="command-prompt">id</span><span class="command-output">uid=1000(ouicestmoi) gid=1000(ouicestmoi) groups=1000(ouicestmoi),4(adm),24(cdrom),27(sudo)</span></code></pre>
+            </div>
+        </section>
+        <section class="slide">
+            <div class="content">
+                <h2>Le Super-pouvoir : sudo</h2>
+                <p><code>sudo</code> exécute <strong>une seule commande</strong> en tant qu'administrateur (root).</p>
+                <pre><code class="command-prompt">sudo apt update</code></pre>
+                <p><code>sudo su</code> ouvre un <strong>nouveau shell</strong> en tant que root. Vous restez root
+                    jusqu'à <code>exit</code>. C'est pratique mais plus risqué.</p>
+                <pre><code><span class="command-prompt">sudo su</span><span class="command-prompt-root">whoami</span><span class="command-output">root</span></code></pre>
+            </div>
+        </section>
+        <section class="slide">
+            <div class="content">
+                <h2>La Structure des Fichiers Linux</h2>
+                <p id="fs-instruction">Tout part de la racine.</p>
+                <div class="filesystem-container" id="fs-container">
+                    <div class="folder-icon root-folder" id="root-folder-icon">/</div>
+                    <div class="filesystem-grid">
+                        <div class="folder-icon" data-folder="bin">/bin</div>
+                        <div class="folder-icon" data-folder="boot">/boot</div>
+                        <div class="folder-icon" data-folder="dev">/dev</div>
+                        <div class="folder-icon" data-folder="etc">/etc</div>
+                        <div class="folder-icon" data-folder="home">/home</div>
+                        <div class="folder-icon" data-folder="opt">/opt</div>
+                        <div class="folder-icon" data-folder="usr">/usr</div>
+                        <div class="folder-icon" data-folder="var">/var</div>
+                        <div class="folder-icon" data-folder="tmp">/tmp</div>
+                        <div class="folder-icon" data-folder="media">/media</div>
+                        <div class="folder-icon" data-folder="mnt">/mnt</div>
+                        <div class="folder-icon" data-folder="sys">/sys</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide">
+            <div class="content">
+                <h2>Les Parametres de Commandes</h2>
+                <p>Les commandes acceptent des <strong>paramètres</strong> (flags) pour modifier leur comportement,
+                    souvent précédés d'un <strong>-</strong>.</p>
+                <pre><code><span class="command-prompt">ls</span><span class="command-output">dossier1 fichier.txt</span><span class="command-prompt">ls -l</span><span class="command-output">drwxr-xr-x 2 user user 4096 oct 14 01:15 dossier1
+-rw-r--r-- 1 user user   42 oct 14 01:15 fichier.txt</span></code></pre>
+            </div>
+        </section>
+        <section class="slide">
+            <div class="content">
+                <h2>Navigation</h2>
+                <p><code>pwd</code> : Où suis-je ?</p>
+                <pre><code><span class="command-prompt">pwd</span><span class="command-output">/home/utilisateur/Documents</span></code></pre>
+                <p><code>cd</code> : Se déplacer.</p>
+                <pre><code><span class="command-prompt">cd /var/log</span><span class="command-prompt">pwd</span><span class="command-output">/var/log</span></code></pre>
+                <p><strong>Répertoires spéciaux :</strong></p>
+                <ul>
+                    <li><code>.</code> : Le répertoire actuel</li>
+                    <li><code>..</code> : Le répertoire parent (dossier du dessus)</li>
+                </ul>
+                <pre><code><span class="command-prompt">cd ..</span><span class="command-prompt">pwd</span><span class="command-output">/var</span></code></pre>
+            </div>
+        </section>
+        <section class="slide">
+            <div class="content">
+                <h2>Lister des Fichiers</h2>
+                <p><code>ls -la</code> : Liste <strong>tous</strong> les fichiers (<code>-a</code>) en format
+                    <strong>long</strong> (<code>-l</code>).
+                </p>
+                <pre><code><span class="command-prompt">ls -la</span><span class="command-output">total 12
+drwxr-xr-x 3 user user 4096 oct 14 01:15 .
+drwxr-xr-x 5 user user 4096 oct 14 01:10 ..
+drwxr-xr-x 2 user user 4096 oct 14 01:15 dossier1
+-rw-r--r-- 1 user user   42 oct 14 01:15 fichier.txt
+-rw-r--r-- 1 user user    0 oct 14 01:15 .secret</span></code></pre>
+            </div>
+        </section>
+        <section class="slide">
+            <div class="content">
+                <h2>Comprendre la sortie de `ls -l`</h2>
+                <p>Chaque ligne de <code>ls -l</code> contient des informations précises :</p>
+                <pre><code><span class="command-output">drwxr-xr-x 2 user user 4096 oct 14 01:15 dossier1
+-rw-r--r-- 1 user user   42 oct 14 01:15 fichier.txt</span></code></pre>
+                <ul>
+                    <li><strong>1er caractère :</strong> Type (<code>d</code>=dossier, <code>-</code>=fichier,
+                        <code>l</code>=lien)
+                    </li>
+                    <li><strong>9 caractères suivants :</strong> Permissions (rwx pour propriétaire/groupe/autres)</li>
+                    <li><strong>Nombre :</strong> Liens ou sous-dossiers</li>
+                    <li><strong>1er nom :</strong> Propriétaire du fichier</li>
+                    <li><strong>2ème nom :</strong> Groupe propriétaire</li>
+                    <li><strong>Taille :</strong> En octets</li>
+                    <li><strong>Date/heure :</strong> Dernière modification</li>
+                    <li><strong>Nom :</strong> Nom du fichier/dossier</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="slide">
+            <div class="content">
+                <h2>Les Alias</h2>
+                <p>Un <strong>alias</strong> est un raccourci. Souvent, <code>ll</code> est un alias pour
+                    <code>ls -lah</code>.
+                </p>
+                <pre><code><span class="command-prompt">alias c='clear'</span></code></pre>
+                <p>Maintenant, taper <code>c</code> exécutera la commande complète clear qui refresh votre shell.</p>
+            </div>
+        </section>
+        <section class="slide">
+            <div class="content">
+                <h2>Obtenir de l'aide</h2>
+                <p>La commande la plus importante : le manuel !</p>
+                <pre><code class="command-prompt">man ls</code></pre>
+                <p>Ceci affiche la documentation complète de <code>ls</code> avec toutes ses options.</p>
+            </div>
+        </section>
+        <section class="slide">
+            <div class="content">
+                <h2>Visualiser des Fichiers</h2>
+                <p><code>cat</code> : Affiche tout le contenu en brut d'un coup.</p>
+                <pre><code><span class="command-prompt">cat /etc/passwd</span><span class="command-output">root:x:0:0:root:/root:/bin/bash
+...</span></code></pre>
+                <p><code>less</code> : Affiche le contenu page par page (plus pratique pour les gros fichiers), et on
+                    appuie sur q puor quitter.</p>
+                <pre><code class="command-prompt">less /var/log/syslog</code></pre>
+            </div>
+        </section>
+        <section class="slide">
+            <div class="content">
+                <h2>Visualiser des Fichiers</h2>
+                <p><code>head</code> : Affiche les 10 premières lignes d'un fichier.</p>
+                <pre><code><span class="command-prompt">head -n 5 /etc/passwd</span><span class="command-output">root:x:0:0:root:/root:/bin/bash
+daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
+bin:x:2:2:bin:/bin:/usr/sbin/nologin
+sys:x:3:3:sys:/dev:/usr/sbin/nologin
+sync:x:4:65534:sync:/bin:/bin/sync</span></code></pre>
+                <p><code>tail</code> : Affiche les 10 dernières lignes. Très utile avec l'option <code>-f</code> pour
+                    voir un fichier en direct.</p>
+                <pre><code class="command-prompt">tail -f /var/log/syslog</code></pre>
+            </div>
+        </section>
+        <section class="slide">
+            <div class="content">
+                <h2>Créer du Contenu</h2>
+                <p><code>echo</code> : Affiche du texte.</p>
+                <pre><code><span class="command-prompt">echo "Hello World" > greeting.txt</span><span class="command-prompt">cat greeting.txt</span><span class="command-output">Hello World</span></code></pre>
+                <p><code>></code> crée/écrase un fichier. <code>>></code> ajoute à la fin.</p>
+                <pre><code><span class="command-prompt">echo "Append this" >> greeting.txt</span></code></pre>
+            </div>
+        </section>
+        <section class="slide">
+            <div class="content">
+                <h2>Editer des Fichiers</h2>
+                <p><code>nano</code> et <code>vim</code> : Éditeur de texte simple, disponible par defaut sur linux
+                    idéal pour débuter.</p>
+                <pre><code class="command-prompt">nano mon_script.sh</code></pre>
+                <p>Utilisez <strong>Ctrl+X</strong> pour quitter, puis <strong>Y</strong> (ou O) pour sauvegarder.</p>
+            </div>
+        </section>
+        <section class="slide">
+            <div class="content">
+                <h2>Creer du contenu</h2>
+                <p><code>mkdir -p</code> : Crée un dossier et ses parents s'ils n'existent pas.</p>
+                <pre><code class="command-prompt">mkdir -p projet/src/components</code></pre>
+                <p><code>touch</code> : Crée un fichier vide.</p>
+                <pre><code class="command-prompt">touch projet/src/components/Button.js</code></pre>
+            </div>
+        </section>
+        <section class="slide">
+            <div class="content">
+                <h2>Copier & Déplacer</h2>
+                <p><code>cp</code> : Copie un fichier ou un dossier.</p>
+                <pre><code class="command-prompt">cp source.txt copie.txt</code></pre>
+                <p><code>mv</code> : Déplace ou renomme.</p>
+                <pre><code><span class="command-prompt">mv copie.txt nouveau_nom.txt</span><span class="command-prompt">mv nouveau_nom.txt ./projet/</span></code></pre>
+            </div>
+        </section>
+        <section class="slide">
+            <div class="content">
+                <h2>Supprimer</h2>
+                <p><code>rm</code> : Supprime un fichier.</p>
+                <pre><code class="command-prompt">rm fichier.txt</code></pre>
+                <p><code>rm -rf</code> : Supprime un dossier et son contenu.</p>
+                <pre><code class="command-prompt">rm -rf projet</code></pre>
+                <p class="disclaimer"><strong>ATTENTION :</strong> <code>rm -rf</code> est irréversible. La commande
+                    <code>rm -rf /*</code> peut détruire votre système ⚠️.
+                </p>
+            </div>
+        </section>
+        <section class="slide">
+            <div class="content">
+                <h2>Permissions</h2>
+                <p><code>chmod</code> modifie les permissions (lecture, écriture, exécution) d'un fichier.</p>
+                <pre><code><span class="command-prompt">ls -l script.sh</span><span class="command-output">-rw-r--r-- 1 user user 22 oct 14 02:10 script.sh</span><span class="command-prompt">chmod +x script.sh</span><span class="command-prompt">ls -l script.sh</span><span class="command-output">-rwxr-xr-x 1 user user 22 oct 14 02:11 script.sh</span></code></pre>
+                <p><code>+x</code> ajoute la permission d'exécution pour tout le monde.</p>
+            </div>
+        </section>
+        <section class="slide">
+            <div class="content">
+                <h2>Liens Symboliques</h2>
+                <p>Un lien symbolique est un raccourci vers un autre fichier ou dossier.</p>
+                <pre><code><span class="command-prompt">ln -s /var/log/syslog mon_raccourci_log</span><span class="command-prompt">ls -l mon_raccourci_log</span><span class="command-output">lrwxrwxrwx 1 user user 18 oct 14 03:00 mon_raccourci_log -> /var/log/syslog</span></code></pre>
+            </div>
+        </section>
+        <section class="slide">
+            <div class="content">
+                <h2>Localiser une commande</h2>
+                <p><code>which</code> trouve le chemin complet d'un exécutable.</p>
+                <pre><code><span class="command-prompt">which python3</span><span class="command-output">/usr/bin/python3</span></code></pre>
+            </div>
+        </section>
+
+        <section class="slide activity-slide">
+            <div class="content">
+                <h2>Activite 1 : Les Fondamentaux</h2>
+                <p>Mettez en pratique les commandes de base avec une série de défis rapides et amusants.</p><a
+                    href="https://cmdchallenge.com" target="_blank" class="btn">CmdChallenge</a>
+            </div>
+        </section>
+
+        <section class="slide">
+            <div class="content">
+                <h2>La Puissance du Pipe</h2>
+                <p>Le "pipe" prend la sortie d'une commande et en fait l'entrée de la suivante.</p>
+                <pre><code><span class="command-prompt">ps aux | grep "apache"</span></code></pre>
+                <p>Ici, on liste tous les processus, puis on ne garde que les lignes contenant "apache".</p>
+            </div>
+        </section>
+        <section class="slide">
+            <div class="content">
+                <h2>Chercher du Texte</h2>
+                <p><code>grep</code> filtre les lignes d'un document qui contiennent un motif.</p>
+                <pre><code><span class="command-prompt">grep "error" /var/log/syslog</span><span class="command-output">Oct 14 02:15 kernel: [   1.2345] ras: ACPI: CPRC: Found error inject entry</span></code></pre>
+            </div>
+        </section>
+        <section class="slide">
+            <div class="content">
+                <h2>Trouver des Fichiers</h2>
+                <p><code>find</code> recherche des fichiers sur tout le système.</p>
+                <pre><code><span class="command-prompt">find /home -name "*.txt"</span><span class="command-output">/home/user/Documents/notes.txt</span></code></pre>
+            </div>
+        </section>
+        <section class="slide">
+            <div class="content">
+                <h2>Traiter du Texte</h2>
+                <p><code>awk</code> traite le texte colonne par colonne. Très puissant pour extraire des infos.</p>
+                <pre><code><span class="command-prompt">ls -l | awk '{print $1, $9}'</span><span class="command-output">-rw-r--r-- greeting.txt
+-rwxr-xr-x script.sh</span></code></pre>
+                <p>Ceci n'affiche que la colonne des permissions ($1) et celle du nom ($9).</p>
+            </div>
+        </section>
+        <section class="slide">
+            <div class="content">
+                <h2>Variables d'environnement</h2>
+                <p><code>env</code> affiche les variables de session.</p>
+                <pre><code><span class="command-prompt">env | head -n 3</span><span class="command-output">SHELL=/bin/bash
+USER=utilisateur
+PATH=/usr/local/bin:/usr/bin:/bin</span></code></pre>
+                <p><code>$PATH</code> est cruciale : elle liste où le shell cherche les commandes.</p>
+            </div>
+        </section>
+        <section class="slide">
+            <div class="content">
+                <h2>Surveiller le Systeme</h2>
+                <p><code>ps aux</code> : Liste tous les processus en cours.</p>
+                <pre><code><span class="command-prompt">ps aux</span><span class="command-output">USER         PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
+root           1  0.0  0.1 169400 13580 ?        Ss   01:50   0:01 /sbin/init
+user        1234  0.0  0.0  12345  6789 pts/0    S+   02:20   0:00 /bin/bash</span></code></pre>
+                <p><code>top</code> : Affiche les processus en temps réel (comme le gestionnaire des tâches).</p>
+                <pre><code><span class="command-prompt">top</span><span class="command-output">top - 14:25:30 up  2:35,  1 user,  load average: 0.08, 0.03, 0.01
+Tasks: 123 total,   1 running, 122 sleeping,   0 stopped,   0 zombie
+%Cpu(s):  0.3 us,  0.2 sy,  0.0 ni, 99.5 id,  0.0 wa,  0.0 hi,  0.0 si,  0.0 st
+MiB Mem :   3944.0 total,   2000.0 free,   1000.0 used,    944.0 buff/cache
+MiB Swap:   2047.0 total,   2047.0 free,      0.0 used.   2500.0 avail Mem
+
+  PID USER      PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+ COMMAND
+    1 root      20   0  169400  13580  10240 S   0.0   0.3   0:01.23 systemd</span></code></pre>
+            </div>
+        </section>
+        <section class="slide">
+            <div class="content">
+                <h2>Terminer un Processus</h2>
+                <p><code>kill</code> termine un processus grâce à son ID (PID), que l'on trouve avec `ps`.</p>
+                <pre><code><span class="command-prompt">kill 1234</span></code></pre>
+            </div>
+        </section>
+        <section class="slide">
+            <div class="content">
+                <h2>Analyser l'Espace</h2>
+                <p><code>df -h</code> : Affiche l'utilisation du disque (h pour "lisible par l'humain").</p>
+                <pre><code><span class="command-prompt">df -h /</span><span class="command-output">Filesystem      Size  Used Avail Use% Mounted on
+/dev/sda1        20G  8.5G   11G  45% /</span></code></pre>
+                <p><code>free -m</code> : Affiche l'utilisation de la mémoire RAM (m pour "megabytes").</p>
+                <pre><code><span class="command-prompt">free -m</span><span class="command-output">              total        used        free      shared  buff/cache   available
+Mem:           3944        1000        2000          10         944        2500
+Swap:          2047           0        2047</span></code></pre>
+            </div>
+        </section>
+
+        <section class="slide">
+            <div class="content">
+                <h2>Utilitaires Reseau</h2>
+                <p><code>ping</code> : Teste la connectivité avec une machine.</p>
+                <pre><code><span class="command-prompt">ping -c 4 google.com</span></code></pre>
+                <p><code>curl</code> : Transfère des données depuis une URL.</p>
+                <pre><code><span class="command-prompt">curl https://example.com</span></code></pre>
+            </div>
+        </section>
+        <section class="slide">
+            <div class="content">
+                <h2>Connexion à Distance basique</h2>
+                <p><strong>SSH (Secure Shell)</strong> est essentiel pour se connecter à une machine distante.</p>
+                <pre><code class="command-prompt">ssh utilisateur@adresse-ip -p port</code></pre>
+            </div>
+        </section>
+        <section class="slide activity-slide">
+            <div class="content">
+                <h2>Activité 2 : Infiltration</h2>
+                <p>Utilisez <code>grep</code>, <code>find</code>, <code>ssh</code> et d'autres outils pour trouver les
+                    mots de passe et progresser dans ce wargame classique.</p><a
+                    href="https://overthewire.org/wargames/bandit/" target="_blank" class="btn">Jouer à Bandit (Niveaux
+                    0-5)</a>
+            </div>
+        </section>
+        <section class="slide">
+            <div class="content">
+                <h2>L'outil git</h2>
+                <p><code>git clone</code> est essentiel pour télécharger le code source d'un outil ou document depuis
+                    GitHub.
+                </p>
+                <pre><code class="command-prompt">git clone https://github.com/veltman/clmystery.git</span></code></pre>
+            </div>
+        </section>
+        <section class="slide activity-slide">
+            <div class="content">
+                <h2>Activite 3 : L'Enquete Finale</h2>
+                <p>Clonez le dépôt et utilisez TOUT ce que vous avez appris pour trouver le coupable.</p><a
+                    href="https://github.com/veltman/clmystery" target="_blank" class="btn">Démarrer CLIMystery</a>
+            </div>
+        </section>
+        <section class="slide">
+            <div class="content">
+                <h2>Felicitations !</h2>
+                <p>Vous avez maintenant les clés pour être autonome et efficace sur un terminal. La ligne de commande
+                    n'est pas une barrière, c'est un super-pouvoir.</p>
+                <h3>Bonne continuation !</h3>
+            </div>
+        </section>
+
+    </main>
+
+    <div id="folderModal" class="modal-backdrop">
+        <div class="modal-content"><button class="modal-close">&times;</button>
+            <h3 id="modalFolderName"></h3>
+            <p id="modalFolderDesc"></p>
+        </div>
+    </div>
+
+    <!-- Panneau de navigation des slides -->
+    <div id="slideNavPanel" class="slide-nav-panel">
+        <div class="slide-nav-panel-header">
+            <h3>Navigation des slides</h3>
+            <button class="slide-nav-panel-close">&times;</button>
+        </div>
+        <div class="slide-nav-panel-content" id="slideNavList">
+            <!-- La liste sera générée par JavaScript -->
+        </div>
+    </div>
+
+    <div class="progress-bar-container">
+        <div class="progress-bar"></div>
+    </div>
+    <nav class="slide-nav">
+        <button id="prevBtn" title="Précédent (←)">&lt;</button>
+        <span id="slideCounter" class="clickable" title="Cliquez pour naviguer entre les slides"></span>
+        <button id="nextBtn" title="Suivant (→)">&gt;</button>
+    </nav>
+
+ls
+</body>
+
+</html>
